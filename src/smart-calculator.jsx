@@ -1263,32 +1263,57 @@ export default function SmartCalculator() {
         >
           <Panel style={{ flex: isMobile ? "1 1 auto" : "0 0 580px", overflow: "hidden", width: isMobile ? "100%" : 580, alignSelf: "flex-start" }}>
             {/* segmented mode control */}
-            <div style={{ padding: "18px 20px 0" }}>
-              <div style={{ display: "flex", background: "var(--panel-strong)", borderRadius: 999, padding: 4, border: "2.5px solid var(--panel-border)" }}>
-                {["calc", "convert"].map((m) => (
-                  <button
-                    key={m}
-                    onClick={() => setMode(m)}
-                    style={{
-                      flex: 1,
-                      padding: "8px 0",
-                      borderRadius: 999,
-                      border: "none",
-                      cursor: "pointer",
-                      fontWeight: 700,
-                      fontSize: 12.5,
-                      letterSpacing: 0.3,
-                      background: mode === m ? "var(--accent-2)" : "transparent",
-                      color: mode === m ? "var(--panel-strong)" : "var(--text)",
-                      transition: "all .18s ease",
-                    }}
-                  >
-                    {m === "calc" ? "Calculator" : "Converters"}
-                  </button>
-                ))}
-              </div>
-            </div>
-
+            {/* segmented mode control */}
+<div style={{ padding: "18px 20px 0" }}>
+  <div
+    style={{
+      position: "relative",
+      display: "flex",
+      background: "var(--panel-strong)",
+      borderRadius: 999,
+      padding: 4,
+      border: "2.5px solid var(--panel-border)",
+    }}
+  >
+    <div
+      style={{
+        position: "absolute",
+        top: 4,
+        left: 4,
+        width: "calc(50% - 4px)",
+        height: "calc(100% - 8px)",
+        borderRadius: 999,
+        background: "var(--accent-2)",
+        transform: mode === "convert" ? "translateX(100%)" : "translateX(0)",
+        transition: "transform .28s cubic-bezier(0.4, 0, 0.2, 1)",
+      }}
+    />
+    {["calc", "convert"].map((m) => (
+      <button
+        key={m}
+        className="sc-mode-btn"
+        onClick={() => setMode(m)}
+        style={{
+          position: "relative",
+          zIndex: 1,
+          flex: 1,
+          padding: "8px 0",
+          borderRadius: 999,
+          border: "none",
+          background: "none",
+          cursor: "pointer",
+          fontWeight: 700,
+          fontSize: 12.5,
+          letterSpacing: 0.3,
+          color: mode === m ? "var(--panel-strong)" : "var(--text)",
+          transition: "color .18s ease",
+        }}
+      >
+        {m === "calc" ? "Calculator" : "Converters"}
+      </button>
+    ))}
+  </div>
+</div>
             {mode === "calc" ? (
               <>
                 <Display
@@ -1354,6 +1379,7 @@ const CSS = `
   .sc-root * { box-sizing: border-box; }
   .sc-press { transition: transform .08s ease, box-shadow .08s ease; }
   .sc-press:active { transform: translate(3px, 3px) !important; box-shadow: 0px 0px 0px var(--panel-border) !important; }
+  .sc-key:hover { box-shadow: 4px 4px 0px var(--panel-border), 0 0 24px 6px var(--accent) !important; }
   .sc-key:active { transform: translate(4px, 4px) !important; box-shadow: 0px 0px 0px var(--panel-border) !important; }
   .sc-history-item:hover { background: var(--key-bg-hover) !important; }
   .sc-history-item { transition: background .15s ease, transform .08s ease, box-shadow .08s ease; }
