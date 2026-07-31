@@ -23,6 +23,14 @@ function useFonts() {
 /* ============================================================
    THEME TOKENS
    ============================================================ */
+/* ============================================================
+   CUSTOM WALLPAPER
+   Put an image file in your project's `public/` folder (e.g. public/wallpaper.jpg)
+   and set the path below, e.g. "/wallpaper.jpg". Leave it "" for no wallpaper
+   (just the flat theme background).
+   ============================================================ */
+const WALLPAPER_URL = "cat_calculator_theme.png";
+
 const THEMES = {
   light: {
     name: "Light",
@@ -1180,20 +1188,39 @@ export default function SmartCalculator() {
           minHeight: "100vh",
           width: "100%",
           backgroundColor: "var(--bg)",
+          backgroundImage: WALLPAPER_URL ? `url("${WALLPAPER_URL}")` : "none",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundAttachment: isMobile ? "scroll" : "fixed",
+          backgroundRepeat: "no-repeat",
           color: "var(--text)",
           fontFamily: "Inter, sans-serif",
           padding: isMobile ? "16px 12px 90px" : "40px 28px",
           position: "relative",
-          overflow: "hidden",
+          overflow: "auto",
           display: "flex",
           flexDirection: "column",
+          justifyContent: "center",
         }}
         data-scheme={themeVars.scheme}
       >
         <style>{CSS}</style>
 
+        {/* dims the wallpaper so panels/text stay legible; harmless no-op when there's no wallpaper */}
+        <div
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: "var(--bg)",
+            opacity: WALLPAPER_URL ? 0.55 : 1,
+            zIndex: 0,
+            pointerEvents: "none",
+          }}
+        />
+
         {/* header */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 18, maxWidth: 1320, width: "100%", margin: "0 auto 18px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 18, maxWidth: 1320, width: "100%", margin: "0 auto 18px", position: "relative", zIndex: 1 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <div
               style={{
@@ -1231,7 +1258,7 @@ export default function SmartCalculator() {
             alignItems: "stretch",
             justifyContent: !isMobile && !historyOpen ? "center" : "flex-start",
             position: "relative",
-            flex: "1 1 auto",
+            zIndex: 1,
           }}
         >
           <Panel style={{ flex: isMobile ? "1 1 auto" : "0 0 580px", overflow: "hidden", width: isMobile ? "100%" : 580, alignSelf: "flex-start" }}>
